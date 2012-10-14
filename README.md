@@ -13,3 +13,4 @@ Just clone this repository and load the init.sh file. I do it this way:
 
     $ git clone git://github.com/viniciussbs/bash_config.git ~/.bash.d
     $ echo "source ~/.bash.d/init.sh" > ~/bash_profile
+    $ source ~/bash_profile
