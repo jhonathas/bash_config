@@ -1,9 +1,14 @@
+PATH=$PATH:$HOME/.rvm/bin
+PATH=/usr/local/heroku/bin:$PATH
+export PATH=$PATH
+
 export EDITOR="nano"
 
 export HISTCONTROL=ignoreboth
 export HISTFILESIZE=1000000
 export HISTIGNORE="&"
 export HISTSIZE=${HISTFILESIZE}
+
 export GREP_OPTIONS="--color=auto"
 export GREP_COLOR="4;33"
 
