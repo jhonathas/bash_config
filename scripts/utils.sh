@@ -4,12 +4,84 @@ reload() {
 }
 
 _repo() {
-  local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$(ls ~/src)" -- $cur) )
+  local cur prev opts
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
+  opts="clone list open path remove"
+
+  case "${prev}" in
+    o|open)
+      local repos=$(ls ~/src)
+      COMPREPLY=( $(compgen -W "${repos}" -- ${cur}) )
+      return 0
+      ;;
+    remove)
+      local repos=$(ls ~/src)
+      COMPREPLY=( $(compgen -W "${repos}" -- ${cur}) )
+      return 0
+      ;;
+    *)
+    ;;
+  esac
+
+  if [[ "$COMP_CWORD" == 1 ]]; then
+    COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+  fi
+
+  return 0
 }
 
+#  repo path
+#  repo list
+#  repo open [repo_name]
+#  repo remove [repo_name]
+#  repo clone [git_endpoint]
 repo() {
-  cd ~/src/$1
+  case "$1" in
+    path)
+      echo "$HOME/src"
+      return 0
+      ;;
+    l|list)
+      \ls -1 ~/src
+      return 0
+      ;;
+    o|open)
+      cd ~/src/$2
+      return 0
+      ;;
+    remove)
+      if [[ "$2" != '' ]]; then
+        read -r -p "Remove repo $2? [yes/no] " response
+        case $response in
+          [yY][eE][sS])
+            rm -rf ~/src/$2
+            echo "Repo $2 removed."
+            ;;
+          *)
+          ;;
+        esac
+      fi
+      return 0
+      ;;
+    c|clone)
+      cd ~/src
+      git clone $2 $3
+      local repo
+      if [[ "$3" != '' ]]; then
+        repo="$3"
+      else
+        if [[ "$2" =~ \/(.*)\.git$ ]]; then
+          repo="${BASH_REMATCH[1]}"
+        fi
+      fi
+      echo "New repo $repo."
+      return 0
+      ;;
+    *)
+    ;;
+  esac
 }
 
 complete -F _repo repo
