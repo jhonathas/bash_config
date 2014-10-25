@@ -46,10 +46,10 @@ configure_prompt () {
   local LOG=`git log -1 2> /dev/null`
 
   if [[ "$RAILS_VERSION" ]]; then
-    local RAILS_PROMPT=" on rails ${RAILS_VERSION}"
+    local RAILS_PROMPT=" | rails-${RAILS_VERSION}"
   fi
 
-  RUBY_PROMPT="${GRAY}[ ruby ${RUBY_VERSION}${RAILS_PROMPT} ]${NO_COLOR} "
+  RUBY_PROMPT="${GRAY}[ ruby-${RUBY_VERSION}${RAILS_PROMPT} ]${NO_COLOR} "
 
   if [ "$STATUS" != "" ]; then
     if [[ "$STATUS" =~ "$CHANGES_NOT_STAGED" ]]; then
