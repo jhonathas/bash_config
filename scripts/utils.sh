@@ -8,7 +8,7 @@ _repo() {
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
-  opts="clone list open path remove"
+  opts="clone list open path remove new"
 
   case "${prev}" in
     o|open)
@@ -16,7 +16,7 @@ _repo() {
       COMPREPLY=( $(compgen -W "${repos}" -- ${cur}) )
       return 0
       ;;
-    remove)
+    rm|remove)
       local repos=$(ls ~/src)
       COMPREPLY=( $(compgen -W "${repos}" -- ${cur}) )
       return 0
@@ -34,6 +34,7 @@ _repo() {
 
 #  repo path
 #  repo list
+#  repo new
 #  repo open [repo_name]
 #  repo remove [repo_name]
 #  repo clone [git_endpoint]
@@ -43,7 +44,7 @@ repo() {
       echo "$HOME/src"
       return 0
       ;;
-    l|list)
+    l|ls|list)
       \ls -1 ~/src
       return 0
       ;;
@@ -51,7 +52,12 @@ repo() {
       cd ~/src/$2
       return 0
       ;;
-    remove)
+		n|new)
+		  mkdir -p ~/src/$2
+			repo o $2
+			return 0
+			;;
+    rm|remove)
       if [[ "$2" != '' ]]; then
         read -r -p "Remove repo $2? [yes/no] " response
         case $response in
