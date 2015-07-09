@@ -1,8 +1,5 @@
 __wesolve_prompt () {
-  history -a
-  history -c
-  history -r
-
+  # Colors
   local BLUE="\[\033[0;34m\]"
   local NO_COLOR="\[\e[0m\]"
   local GRAY="\[\033[1;30m\]"
@@ -13,8 +10,10 @@ __wesolve_prompt () {
   local RED="\[\033[0;31m\]"
   local WHITE="\[\033[1;37m\]"
   local YELLOW="\[\033[0;33m\]"
-
+  local PURPLE="\[\033[0;35m\]"
   local BASE_COLOR="$NO_COLOR"
+
+  # Branch
   local BRANCH=`git branch 2> /dev/null | grep \* | sed 's/* //'`
 
   if [[ "$BRANCH" = "" ]]; then
@@ -25,13 +24,51 @@ __wesolve_prompt () {
     BRANCH=" $BRANCH"
   fi
 
-  local RUBY_VERSION=`ruby -e "puts RUBY_VERSION"`
+  # Elixir version
+  local ELIXIR_VERSION=""
+  local ELIXIR_PROMPT=""
 
-  if [ -f Gemfile.lock ]; then
-    local RAILS_VERSION=`cat Gemfile.lock | grep -E " +rails \([0-9]+" | sed 's/ *rails (\(.*\))/\1/'`
+  if [ -f mix.exs ]; then
+    ELIXIR_VERSION=`elixir -e "IO.puts System.version"`
+
+    if [ -f mix.lock ]; then
+      local PHOENIX_VERSION=`mix run -e "IO.puts elem(:application.get_key(:phoenix, :vsn), 1)"`
+    fi
+
+    if [[ "$PHOENIX_VERSION" ]]; then
+      local PHOENIX_PROMPT=", phoenix: ${PHOENIX_VERSION}"
+    fi
+
+    ELIXIR_PROMPT="${PURPLE}elixir: ${ELIXIR_VERSION}${PHOENIX_PROMPT}${NO_COLOR}"
   fi
 
+  # Ruby version
+  local RUBY_VERSION=""
   local RUBY_PROMPT=""
+
+  if [ -f Gemfile ]; then
+    RUBY_VERSION=`ruby -e "puts RUBY_VERSION"`
+
+    if [ -f Gemfile.lock ]; then
+      local RAILS_VERSION=`cat Gemfile.lock | grep -E " +rails \([0-9]+" | sed 's/ *rails (\(.*\))/\1/'`
+    fi
+
+    if [[ "$RAILS_VERSION" ]]; then
+      local RAILS_PROMPT=", rails: ${RAILS_VERSION}"
+    fi
+
+    RUBY_PROMPT="${RED}ruby: ${RUBY_VERSION}${RAILS_PROMPT}${NO_COLOR}"
+  fi
+
+  # Current language
+  local LANG_PROMPT=""
+
+  if [ "$ELIXIR_PROMPT" != "" ]; then
+    LANG_PROMPT="${ELIXIR_PROMPT}"
+  elif [ "$RUBY_PROMPT" != "" ]; then
+    LANG_PROMPT="${RUBY_PROMPT}"
+  fi
+
   local STATUS=`git status 2> /dev/null | tr "\\n" " "`
   local PROMPT_COLOR=""
   local STATE=" "
@@ -44,12 +81,6 @@ __wesolve_prompt () {
   local TO_BE_COMMITED="Changes to be committed"
   local CHANGES_NOT_STAGED="Changes not staged for commit"
   local LOG=`git log -1 2> /dev/null`
-
-  if [[ "$RAILS_VERSION" ]]; then
-    local RAILS_PROMPT=", rails: '${RAILS_VERSION}'"
-  fi
-
-  RUBY_PROMPT="${GRAY}{ ruby: '${RUBY_VERSION}'${RAILS_PROMPT} }${NO_COLOR}"
 
   if [ "$STATUS" != "" ]; then
     if [[ "$STATUS" =~ "$CHANGES_NOT_STAGED" ]]; then
@@ -82,9 +113,9 @@ __wesolve_prompt () {
       STATE="${STATE}${YELLOW}*${NO_COLOR}"
     fi
 
-    PS1="\n${BASE_COLOR}\w\a${NO_COLOR} ${PROMPT_COLOR}${BRANCH}${NO_COLOR}${STATE}${NO_COLOR} ${RUBY_PROMPT}\n\$ "
+    PS1="\n${BASE_COLOR}\w\a${NO_COLOR} ${PROMPT_COLOR}${BRANCH}${NO_COLOR}${STATE}${NO_COLOR} ${LANG_PROMPT}\n\$ "
   else
-    PS1="\n${BASE_COLOR}\w\a${NO_COLOR} ${RUBY_PROMPT}\n\$ "
+    PS1="\n${BASE_COLOR}\w\a${NO_COLOR} ${LANG_PROMPT}\n\$ "
   fi
 }
 
