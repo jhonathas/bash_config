@@ -31,9 +31,9 @@ __wesolve_prompt () {
   if [ -f mix.exs ]; then
     ELIXIR_VERSION=`elixir -e "IO.puts System.version"`
 
-    if [ -f mix.lock ]; then
-      local PHOENIX_VERSION=`mix run -e "IO.puts elem(:application.get_key(:phoenix, :vsn), 1)"`
-    fi
+    # if [ -f mix.lock ]; then
+    #   local PHOENIX_VERSION=`mix run -e "IO.puts elem(:application.get_key(:phoenix, :vsn), 1)"`
+    # fi
 
     if [[ "$PHOENIX_VERSION" ]]; then
       local PHOENIX_PROMPT=", phoenix: ${PHOENIX_VERSION}"
