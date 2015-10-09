@@ -28,7 +28,7 @@ __wesolve_prompt () {
   local ELIXIR_VERSION=""
   local ELIXIR_PROMPT=""
 
-  if [ -f mix.exs ]; then
+  if [ -n "$(which elixir)"  ] && [ -f mix.exs ]; then 
     ELIXIR_VERSION=`elixir -e "IO.puts System.version"`
 
     # if [ -f mix.lock ]; then
