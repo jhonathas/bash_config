@@ -9,7 +9,7 @@ for repo in $(ls ~/src); do
   alias "r-$repo"="repo open $repo"
 done
 
-alias dkexec='dk exec -it "${PWD##*/}_web_1"'
+alias dk='docker'
 alias dkc="docker-compose"
 alias dkm="docker-machine"
 alias dkclose="docker-machine stop docker"
