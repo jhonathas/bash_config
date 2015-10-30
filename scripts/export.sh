@@ -23,4 +23,4 @@ export LESS_TERMCAP_us=$'\E[00;32m'
 eval "$(docker-machine env docker)"
 
 # brew/cask
-export HOMEBREW_CASK_OPTS="--caskroom=/Application"
+export HOMEBREW_CASK_OPTS="--caskroom=~/Applications"

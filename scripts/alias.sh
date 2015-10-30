@@ -18,7 +18,7 @@ alias dknfs="docker-machine-nfs docker"
 alias dkbash="docker-compose run --service-ports --rm web bash"
 alias dkinit="dkstart && dknfs && reload"
 alias dkexec='docker exec -it "${PWD##*/}_web_1"'
-alias dkclear='docker rm $(docker ps -q -f status=exited)'
+alias dkclear='docker rmi -f `docker images -q --filter "dangling=true"`'
 
 alias rails="dkexec rails"
 alias rake="dkc run --rm web rake"
