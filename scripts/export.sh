@@ -20,7 +20,7 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[00;32m'
 
 # Exports vars of Docker
-eval "$(docker-machine env docker)"
+eval "$(docker-machine env dev)"
 
 # brew/cask
 export HOMEBREW_CASK_OPTS="--caskroom=~/Applications"

@@ -12,13 +12,14 @@ done
 alias dk='docker'
 alias dkc="docker-compose"
 alias dkm="docker-machine"
-alias dkclose="docker-machine stop docker"
-alias dkstart="docker-machine start docker"
-alias dknfs="docker-machine-nfs docker"
-alias dkbash="docker-compose run --service-ports --rm web bash"
-alias dkinit="dkstart && dknfs && reload"
-alias dkexec='docker exec -it "${PWD##*/}_web_1"'
-alias dkclear='docker rmi -f `docker images -q --filter "dangling=true"`'
+alias dkmstart="docker-machine start dev"
+alias dkmstop="docker-machine stop dev"
+alias dkminit="dkstart && dknfs && reload"
+alias dkmnfs="docker-machine-nfs dev"
 
-alias rails="dkexec rails"
-alias rake="dkc run --rm web rake"
+alias dkcrun='docker-compose run --rm web'
+alias dkcbash="dkrun bash"
+alias dkcbashs="docker-compose run --service-ports --rm web bash"
+
+alias rails="dkcrun bundle exec rails"
+alias rake="dkcrun bundle exec rake"
