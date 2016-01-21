@@ -12,13 +12,16 @@ done
 alias dk='docker'
 alias dkc="docker-compose"
 alias dkm="docker-machine"
+
+alias dkcleaner="dk images -q --filter \"dangling=true\" | xargs docker rmi -f"
+
 alias dkmstart="docker-machine start dev"
 alias dkmstop="docker-machine stop dev"
 alias dkminit="dkstart && dknfs && reload"
 alias dkmnfs="docker-machine-nfs dev"
 
 alias dkcrun='docker-compose run --rm web'
-alias dkcbash="dkrun bash"
+alias dkcbash="dkcrun bash"
 alias dkcbashs="docker-compose run --service-ports --rm web bash"
 
 alias rails="dkcrun bundle exec rails"
