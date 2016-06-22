@@ -19,8 +19,9 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[00;32m'
 
-# Exports vars of Docker
-eval "$(docker-machine env dev)"
-
 # brew/cask
 export HOMEBREW_CASK_OPTS="--caskroom=~/Applications"
+
+# IONIC
+export JAVA_HOME=$(/usr/libexec/java_home)
+export ANDROID_HOME=/usr/local/opt/android-sdk
