@@ -1,6 +1,6 @@
 function docker-machine-init() {
-    if [ `docker-machine status develop` == "Running" ]; then
-        eval "$(docker-machine env develop)"
+    if [ `docker-machine status` == "Running" ]; then
+        eval "$(docker-machine env)"
     fi
 }
 
@@ -12,10 +12,11 @@ alias dkm="docker-machine"
 
 alias dkcleaner="dk images -q --filter \"dangling=true\" | xargs docker rmi -f"
 
-alias dkmstart="dkm start develop"
-alias dkmstop="dkm stop develop"
-alias dkmnfs="docker-machine-nfs develop"
+alias dkmstart="dkm start"
+alias dkmstop="dkm stop"
+alias dkmnfs="docker-machine-nfs default"
 alias dkminit="dkmstart && dkmnfs && docker-machine-init"
+alias dkmrestart="dkmstop && dkminit"
 
 alias dkrun='dkc run --rm web'
 alias dkbash="dkrun bash"
@@ -31,3 +32,29 @@ function rails() {
         command docker-compose run --rm web bundle exec rails "$@"
     fi
 }
+
+function ruby() {
+    if [[ $@ == *"-Itest"* ]]; then
+        command docker-compose run --rm web ruby "$@"
+    else
+        command ruby "$@"
+    fi
+}
+
+function mix() {
+    if [[ $@ == "phoenix.server" ]]; then
+        command docker-compose run --service-ports --rm web mix phoenix.server
+    else
+        command docker-compose run --rm web mix "$@"
+    fi
+}
+
+function ember() {
+    if [[ $@ == "s" ]]; then
+        command ember s --proxy http://docker:4000/api
+    else
+        command ember "$@"
+    fi
+}
+
+alias iex="command docker-compose run --rm web iex"
