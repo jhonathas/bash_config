@@ -1,4 +1,4 @@
-__wesolve_prompt () {
+__prompt () {
   # Colors
   local BLUE="\[\033[0;34m\]"
   local NO_COLOR="\[\e[0m\]"
@@ -22,51 +22,6 @@ __wesolve_prompt () {
 
   if [[ "$BRANCH" = "" ]]; then
     BRANCH=" $BRANCH"
-  fi
-
-  # Elixir version
-  local ELIXIR_VERSION=""
-  local ELIXIR_PROMPT=""
-
-  if [ -n "$(which elixir)"  ] && [ -f mix.exs ]; then 
-    ELIXIR_VERSION=`elixir -e "IO.puts System.version"`
-
-    # if [ -f mix.lock ]; then
-    #   local PHOENIX_VERSION=`mix run -e "IO.puts elem(:application.get_key(:phoenix, :vsn), 1)"`
-    # fi
-
-    if [[ "$PHOENIX_VERSION" ]]; then
-      local PHOENIX_PROMPT=", phoenix: ${PHOENIX_VERSION}"
-    fi
-
-    ELIXIR_PROMPT="${PURPLE}elixir: ${ELIXIR_VERSION}${PHOENIX_PROMPT}${NO_COLOR}"
-  fi
-
-  # Ruby version
-  local RUBY_VERSION=""
-  local RUBY_PROMPT=""
-
-  if [ -f Gemfile ]; then
-    RUBY_VERSION=`ruby -e "puts RUBY_VERSION"`
-
-    if [ -f Gemfile.lock ]; then
-      local RAILS_VERSION=`cat Gemfile.lock | grep -E " +rails \([0-9]+" | sed 's/ *rails (\(.*\))/\1/'`
-    fi
-
-    if [[ "$RAILS_VERSION" ]]; then
-      local RAILS_PROMPT=", rails: ${RAILS_VERSION}"
-    fi
-
-    RUBY_PROMPT="${RED}ruby: ${RUBY_VERSION}${RAILS_PROMPT}${NO_COLOR}"
-  fi
-
-  # Current language
-  local LANG_PROMPT=""
-
-  if [ "$ELIXIR_PROMPT" != "" ]; then
-    LANG_PROMPT="${ELIXIR_PROMPT}"
-  elif [ "$RUBY_PROMPT" != "" ]; then
-    LANG_PROMPT="${RUBY_PROMPT}"
   fi
 
   local STATUS=`git status 2> /dev/null | tr "\\n" " "`
@@ -119,4 +74,4 @@ __wesolve_prompt () {
   fi
 }
 
-PROMPT_COMMAND=__wesolve_prompt
+PROMPT_COMMAND= __prompt
