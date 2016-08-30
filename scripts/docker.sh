@@ -1,6 +1,6 @@
 function docker-machine-init() {
-    if [ `docker-machine status` == "Running" ]; then
-        eval "$(docker-machine env)"
+    if [[ `docker-machine status` == "Running" ]]; then
+        eval "$(docker-machine env)";
     fi
 }
 

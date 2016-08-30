@@ -1,4 +1,4 @@
-__prompt () {
+__wesolve_prompt () {
   # Colors
   local BLUE="\[\033[0;34m\]"
   local NO_COLOR="\[\e[0m\]"
@@ -68,10 +68,10 @@ __prompt () {
       STATE="${STATE}${YELLOW}*${NO_COLOR}"
     fi
 
-    PS1="\n${BASE_COLOR}\w\a${NO_COLOR} ${PROMPT_COLOR}${BRANCH}${NO_COLOR}${STATE}${NO_COLOR} ${LANG_PROMPT}\n\$ "
+    PS1="\n${BASE_COLOR}\w\a${NO_COLOR} ${PROMPT_COLOR}${BRANCH}${NO_COLOR}${STATE}${NO_COLOR}\n\$ "
   else
-    PS1="\n${BASE_COLOR}\w\a${NO_COLOR} ${LANG_PROMPT}\n\$ "
+    PS1="\n${BASE_COLOR}\w\a${NO_COLOR}\n\$ "
   fi
 }
 
-PROMPT_COMMAND= __prompt
+PROMPT_COMMAND=__wesolve_prompt
