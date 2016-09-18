@@ -10,7 +10,8 @@ alias dk='docker'
 alias dkc="docker-compose"
 alias dkm="docker-machine"
 
-alias dkcleaner="dk images -q --filter \"dangling=true\" | xargs docker rmi -f"
+alias dkimagecleaner="dk images -q --filter \"dangling=true\" | xargs docker rmi -f"
+alias dkvolumecleaner="dk volume rm $(docker volume ls -q -f dangling=true)"
 
 alias dkmstart="dkm start"
 alias dkmstop="dkm stop"
