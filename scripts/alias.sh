@@ -5,11 +5,12 @@ alias editzsh="emacs ~/.zsh.d/"
 alias goemacs="cd ~/.emacs.d/"
 alias editemacs="emacs ~/.emacs.d/"
 
-
 # Elixir
 alias mt="mix test"
 alias mts="mix test --stale"
 alias mtd="mix test.debug"
+alias mta="mix test.all"
+alias mtf="mix test.feature"
 alias mtds="mix test.debug --stale"
 alias mps="mix phx.server"
 alias mted="MIX_ENV=test mix ecto.drop"
@@ -17,6 +18,12 @@ alias mdg="mix deps.get"
 
 # Ruby
 alias be="bundle exec"
+alias rails="be rails"
+alias rake="be rake"
+alias rdm="rake db:migrate"
+alias rdc="rake db:create"
+alias rs="rails s -b 0.0.0.0"
+alias sidekiq="be sidekiq"
 
 # GIT
 alias gs="git status"
@@ -45,3 +52,6 @@ alias kpostgres="pg_ctl stop"
 
 # React Native
 alias rn="react-native"
+
+# Bash
+alias copy_key="cat ~/.ssh/id_rsa.pub | pbcopy"
